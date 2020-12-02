@@ -1,39 +1,11 @@
-import React,{ useState, useEffect } from 'react';
-import axios from 'axios';
-
+import React,{ useState } from 'react';
+import useDataApi from './useDataApi';
 import './App.css';
 
 function App() {
-
-  const [data, setData] = useState( [] );
   const [query, setQuery] = useState('');
-  const [search, setSearch] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [{data, isLoading, isError}, doFetch] = useDataApi();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
-
-      try {
-        const result = await axios('https://remote-cat-api.herokuapp.com/jobs');
-
-        // Service atm does not include a search option
-        // so just filter all the results
-        const filteredResult = result.data
-          .filter(text => text.title.toLowerCase().includes(search.toLowerCase()));
-
-        setData(filteredResult);
-      } catch(error) {
-        setIsError(true);
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [search]);
 
   return (
     <div className="App">
@@ -41,7 +13,7 @@ function App() {
         <h1>Remote Jobs</h1>
       </header>
       <form onSubmit={event => {
-        setSearch(query)
+        doFetch(query)
         event.preventDefault();
       }}>
         <input
