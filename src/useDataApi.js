@@ -1,16 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 
+const dataFetchReducer = (state, action) => {
+  switch(action.type) {
+    case 'FETCH_INIT':
+        return {
+          ...state,
+          isLoading: true,
+          isError: false,
+        };
+    case 'FETCH_SUCCESS':
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          data: action.payload
+        };
+    case 'FETCH_FAILURE':
+        return {
+          ...state,
+          isLoading: false,
+          isError: true,
+        };
+    default:
+        throw new Error();
+  }
+}
+
 function useDataApi() {
-  const [data, setData] = useState( [] );
   const [search, setSearch] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+
+  const [state, dispatch] = useReducer(dataFetchReducer, {
+    isLoading: false,
+    isError: false,
+    data: []
+  });
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
+      dispatch({type: 'FETCH_INIT'});
 
       try {
         const result = await axios('https://remote-cat-api.herokuapp.com/jobs');
@@ -20,18 +48,17 @@ function useDataApi() {
         const filteredResult = result.data
           .filter(text => text.title.toLowerCase().includes(search.toLowerCase()));
 
-        setData(filteredResult);
-      } catch(error) {
-        setIsError(true);
-      }
+        dispatch({type: 'FETCH_SUCCESS', payload: filteredResult});
 
-      setIsLoading(false);
+      } catch(error) {
+        dispatch({type: 'FETCH_FAILURE'});
+      }
     };
 
     fetchData();
   }, [search]);
 
-  return [{data, isLoading, isError}, setSearch];
+  return [state, setSearch];
 }
 
 export default useDataApi;
