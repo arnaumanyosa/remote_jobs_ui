@@ -40,14 +40,17 @@ function App() {
       <header className="App-header">
         <h1>Remote Jobs</h1>
       </header>
-      <input
-        type="text"
-        value={query}
-        onChange={event => setQuery(event.target.value)}
-      />
-      <button type="button" onClick={() => setSearch(query)}>
-        Search
-      </button>
+      <form onSubmit={event => {
+        setSearch(query)
+        event.preventDefault();
+      }}>
+        <input
+          type="text"
+          value={query}
+          onChange={event => setQuery(event.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
 
       {isError && <div>Something went wrong ...</div>}
 
