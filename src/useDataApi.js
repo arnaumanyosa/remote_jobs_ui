@@ -10,6 +10,7 @@ const dataFetchReducer = (state, action) => {
           isError: false,
         };
     case 'FETCH_SUCCESS':
+      console.log(action.payload);
         return {
           ...state,
           isLoading: false,
@@ -26,6 +27,10 @@ const dataFetchReducer = (state, action) => {
         throw new Error();
   }
 }
+
+  const formatDate = (date) => {
+    return new Date(date).toISOString().slice(0,10);
+  }
 
 function useDataApi() {
   const [search, setSearch] = useState('');
@@ -46,7 +51,13 @@ function useDataApi() {
         // Service atm does not include a search option
         // so just filter all the results
         const filteredResult = result.data
-          .filter(text => text.title.toLowerCase().includes(search.toLowerCase()));
+          .filter(text => text.title.toLowerCase().includes(search.toLowerCase()))
+          .map(item => {
+            return {
+              ...item,
+              creationdate: formatDate(item.creationdate)
+            }
+          })
 
         dispatch({type: 'FETCH_SUCCESS', payload: filteredResult});
 

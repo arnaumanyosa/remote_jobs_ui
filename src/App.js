@@ -6,37 +6,53 @@ function App() {
   const [query, setQuery] = useState('');
   const [{data, isLoading, isError}, doFetch] = useDataApi();
 
-
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Remote Jobs</h1>
+        <h1>Remote Jobs Search Engine</h1>
+        <form className="App-search-form"
+          onSubmit={event => {
+          doFetch(query)
+          event.preventDefault();
+        }}>
+          <input
+            className="App-search-form-input"
+            type="text"
+            placeholder="Find your dream job"
+            value={query}
+            onChange={event => setQuery(event.target.value)}
+          />
+          <button
+            className="App-search-form-btn"
+            type="submit">
+              Search
+          </button>
+        </form>
       </header>
-      <form onSubmit={event => {
-        doFetch(query)
-        event.preventDefault();
-      }}>
-        <input
-          type="text"
-          value={query}
-          onChange={event => setQuery(event.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
 
-      {isError && <div>Something went wrong ...</div>}
+      <div className="App-content">
+        {isError && <div className="App-error-message">Something went wrong ...</div>}
 
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <ul>
-          {data.map(item => (
-            <li key={item.id}>
-              <a href="{item.url">{item.title}</a>
-            </li>
-          ))}
-        </ul>
-      )}
+        {isLoading ? (
+          <div className="App-loading-sign">Loading...</div>
+        ) : (
+          <ul className="App-results-list">
+            {data.map(item => (
+              <li className="App-results-list-item" key={item.id}>
+                <a href={item.sourceurl} target="_blank" rel="noreferrer">
+                  <div className="App-results-list-item-content">
+                    <div className="App-results-list-item-title">{item.title}</div>
+                    <div className="App-results-list-item-company">{item.company}</div>
+                    <div className="App-results-list-item-date">{item.creationdate}</div>
+                  </div>
+
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
     </div>
   );
 }

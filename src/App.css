@@ -1,3 +1,101 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
 }
+
+.App-header {
+  text-align: center;
+
+  /* background-color: #282c34;
+  color: #ffffff; */
+  padding: 5rem 0 1rem 0;
+
+  /* min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  */
+}
+
+.App-header h1 {
+  font-size: 1.2rem;
+}
+
+.App-search-form {
+  padding: 1rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.App-search-form-input,
+.App-search-form-btn {
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 8px;
+  margin: 4px;
+}
+
+.App-search-form-input{
+  min-width: 40%;
+  background-color: #eee;
+  border:1px solid #eee;
+}
+
+.App-search-form-btn {
+  cursor: pointer;
+  background-color: #ccc;
+  border:1px solid #ccc;
+}
+
+.App-content {
+  margin: 1rem 2rem;
+}
+
+.App-results-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.App-results-list-item {
+  margin-bottom: 1rem;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.App-results-list-item a {
+  color: #323232;
+}
+
+.App-results-list-item-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.App-results-list-item-title {
+  flex-basis: 60%;
+  font-weight: 700;
+}
+
+.App-results-list-item-company,
+.App-results-list-item-date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.App-results-list-item-company {
+  flex-basis: 30%;
+}
+
+.App-results-list-item-date {
+  flex-basis: 10%;
+}
+
+
