@@ -41,6 +41,9 @@ function App() {
               <li className="App-results-list-item" key={item.id}>
                 <a href={item.sourceurl} target="_blank" rel="noreferrer">
                   <div className="App-results-list-item-content">
+                    <div className="App-results-list-item-company-logo">
+                      <img  src={item.companylogourl} alt={item.company}/>
+                    </div>
                     <div className="App-results-list-item-title">{item.title}</div>
                     <div className="App-results-list-item-company">{item.company}</div>
                     <div className="App-results-list-item-date">{item.creationdate}</div>

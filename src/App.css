@@ -77,10 +77,22 @@
 .App-results-list-item-content {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.App-results-list-item-company-logo {
+  flex-basis: 5%;
+}
+
+.App-results-list-item-company-logo img {
+  max-width: 100%;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 
 .App-results-list-item-title {
-  flex-basis: 60%;
+  flex-basis: 55%;
   font-weight: 700;
 }
 
@@ -91,11 +103,11 @@
 }
 
 .App-results-list-item-company {
-  flex-basis: 30%;
+  flex-basis: 25%;
 }
 
 .App-results-list-item-date {
-  flex-basis: 10%;
+  flex-basis: 5%;
 }
 
 
