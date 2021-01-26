@@ -36,8 +36,14 @@ function App() {
         {isLoading ? (
           <div className="App-loading-sign">Loading...</div>
         ) : (
-          <ul className="App-results-list">
-            {data.map(item => (
+          <div className="App-results">
+            {data.length === 0 ? (
+              <div className="App-results-no-results">No results</div>
+            ):(
+              <div className="App-results-list-count">Num results: {data.length}</div>
+            )}
+            <ul className="App-results-list">
+            {[...data].reverse().map(item => (
               <li className="App-results-list-item" key={item.id}>
                 <a href={item.sourceurl} target="_blank" rel="noreferrer">
                   <div className="App-results-list-item-content">
@@ -46,13 +52,15 @@ function App() {
                     </div>
                     <div className="App-results-list-item-title">{item.title}</div>
                     <div className="App-results-list-item-company">{item.company}</div>
-                    <div className="App-results-list-item-date">{item.creationdate}</div>
+                    <div className="App-results-list-item-date">{new Date(item.creationdate).toLocaleDateString()}</div>
                   </div>
 
                 </a>
               </li>
             ))}
           </ul>
+          </div>
+
         )}
       </div>
 

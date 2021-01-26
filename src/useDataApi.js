@@ -10,7 +10,6 @@ const dataFetchReducer = (state, action) => {
           isError: false,
         };
     case 'FETCH_SUCCESS':
-      console.log(action.payload);
         return {
           ...state,
           isLoading: false,
@@ -28,10 +27,6 @@ const dataFetchReducer = (state, action) => {
   }
 }
 
-  const formatDate = (date) => {
-    return new Date(date).toISOString().slice(0,10);
-  }
-
 function useDataApi() {
   const [search, setSearch] = useState('');
 
@@ -46,21 +41,9 @@ function useDataApi() {
       dispatch({type: 'FETCH_INIT'});
 
       try {
-        const result = await axios('https://remote-cat-api.herokuapp.com/jobs');
-
-        // Service atm does not include a search option
-        // so just filter all the results
-        const filteredResult = result.data
-          .filter(text => text.title.toLowerCase().includes(search.toLowerCase()))
-          .map(item => {
-            return {
-              ...item,
-              creationdate: formatDate(item.creationdate)
-            }
-          })
-
-        dispatch({type: 'FETCH_SUCCESS', payload: filteredResult});
-
+        const query = `https://remote-cat-api.herokuapp.com/jobs?search=${search.toLowerCase()}`;
+        const result = await axios(query);
+        dispatch({type: 'FETCH_SUCCESS', payload: result.data});
       } catch(error) {
         dispatch({type: 'FETCH_FAILURE'});
       }
